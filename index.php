@@ -1,5 +1,14 @@
 <?php
+require_once("include/DB.php");
 
+if(isset($_POST["submit"])){
+    if(!empty($_POST["ename"]) &&!empty($_POST["ssn"]) ){
+
+    }else{
+
+        echo "Please atleast add name and security number";
+    }
+}
 
 ?>
 
@@ -12,7 +21,7 @@
 </head>
 <body>
     <h2>Crud Application</h2>
-    <form class="" action="Insert_Into_Database" method="post">
+    <form class="" action="index.php" method="post">
         <legend>* Please Fill in The Following Fields.</legend>
         <fieldset>
            <span >Employee Name:</span><br>
