@@ -1,4 +1,6 @@
 <?php
+//http://localhost/phpCourse/CrudLesson/index.php
+
 require_once("include/DB.php");
 
 if(isset($_POST["submit"])){
@@ -13,29 +15,51 @@ if(isset($_POST["submit"])){
         $H_Add = $_POST["homeaddress"];
 
         global $connectingDB;
-        $sql = "INSERT INTO emp_record (ename,ssn,depart,salary,home_address) 
-        VALUES(:eName,:ssN,:depT,:salarY,:homeaddresS)";
 
-        // preparing our sql 
-        $stmt = $connectingDB->prepare($sql);
+        //writing down the query
 
-        // defining these dummy names
-        $stmt ->bindValue(':eName',$Ename);
-        $stmt ->bindValue(':ssN',$SSN);
-        $stmt ->bindValue(':depT',$Depart);
-        $stmt ->bindValue(':salary',$Salary);
-        $stmt ->bindValue(':homeaddresS',$H_Add);
+        $sql = "SELECT * FROM emp_record WHERE ename = '$Ename'";
 
-        $Execute = $stmt->execute();
+        $result = mysqli_query($connectingDB,$sql);
 
-        if   ($Execute){
-            echo "record is successfull";
+        $num = mysqli_num_rows($result);
+
+        if($num == 1){
+            echo "already taken";
+        }else{
+                   $reg = "INSERT INTO emp_record (ename,ssn,depart,salary,home_address) 
+        VALUES('$Ename','$SSN','$Depart','$Salary','$H_Add')";
+        mysqli_query($connectingDB,$reg);
+
+         echo "successfull";
+
         }
 
-    }else{
 
-        echo "Please atleast add name and security number";
+
+ 
+
+        // preparing our sql 
+       // $stmt = $connectingDB->prepare($sql);
+
+        // defining these dummy names
+        //$stmt ->bindValue(':eName',$Ename);
+        //$stmt ->bindValue(':ssN',$SSN);
+        //$stmt ->bindValue(':depT',$Depart);
+        //$stmt ->bindValue(':salary',$Salary);
+        //$stmt ->bindValue(':homeaddresS',$H_Add);
+
+        //$Execute = $stmt->execute();
+
+        //if   ($Execute){
+          //  echo "record is successfull";
+        //}
+
+    //}else{
+
+      //  echo "Please atleast add name and security number";
     }
+    
 }
 
 ?>
