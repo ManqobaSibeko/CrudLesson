@@ -16,7 +16,7 @@ if(isset($_POST["submit"])){
 
         global $connectingDB;
 
-        //writing down the query
+        //writing down the query / this checks 
 
         $sql = "SELECT * FROM emp_record WHERE ename = '$Ename'";
 
@@ -27,13 +27,29 @@ if(isset($_POST["submit"])){
         if($num == 1){
             echo "already taken";
         }else{
-                   $reg = "INSERT INTO emp_record (ename,ssn,depart,salary,home_address) 
-        VALUES('$Ename','$SSN','$Depart','$Salary','$H_Add')";
-        mysqli_query($connectingDB,$reg);
+
+        $reg = "INSERT INTO emp_record (ename,ssn,depart,salary,home_address) 
+        VALUES(?,?,?,?,?)";
+
+        $stmt = mysqli_stmt_init($connectingDB);
+
+        if(!mysqli_stmt_prepare($stmt , $reg)){
+            echo "Something is wrong" ;
+        }else{
+            mysqli_stmt_bind_param($stmt, "sssss" , $Ename, $SSN, $Depart, $Salary, $H_Add);
+            
+            mysqli_stmt_execute($stmt);
+        }
+                 
 
          echo "successfull";
 
         }
+
+        
+        
+
+
 
 
 
